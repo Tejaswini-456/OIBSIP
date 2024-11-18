@@ -1,28 +1,30 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="css\to do list.css">
-  </head>
-  <body>
-
-    <div class="header">
-      <h2 style="margin:5px">To Do List</h2>
-      <input type="text" id="myInput" placeholder="Title...">
-      <span onclick="newElement()" class="addBtn">Add</span>
-    </div>
-
-    <ul id="myUL">
-      <li class="checked">Go through DataFlair's JavaScript tutorials</li>
-      <li>Practise the codes</li>
-      <li>Read a book on JavaScript</li>
-      <li class="checked">Organise my notes</li>
-      <li>Create JavaScript projects</li>
-      <li>Take quiz</li>
-      <li>Comprehend interview questions</li>
-    </ul>
-    <button type="button" id="clear-list" onclick="removeAll()">Clear Items</button>
-
-    <script type="text/javascript" src="js\to do list.js"></script>
-
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register & Login</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="auth-container">
+    <h1 id="auth-title">Login</h1>
+    <form id="auth-form">
+      <div class="input-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" placeholder="Enter your username" required>
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required>
+      </div>
+      <button type="submit">Submit</button>
+      <p id="error-message"></p>
+    </form>
+    <p>
+      <span id="toggle-link">Don't have an account? Register here.</span>
+    </p>
+  </div>
+  <script src="script.js"></script>
+</body>
 </html>
