@@ -1,28 +1,20 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <link rel="stylesheet" type="text/css" href="css\to do list.css">
-  </head>
-  <body>
-
-    <div class="header">
-      <h2 style="margin:5px">To Do List</h2>
-      <input type="text" id="myInput" placeholder="Title...">
-      <span onclick="newElement()" class="addBtn">Add</span>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-Do List</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="todo-container">
+    <h1>To-Do List</h1>
+    <div class="input-section">
+      <input type="text" id="task-input" placeholder="Add a new task">
+      <button id="add-task-btn">Add</button>
     </div>
-
-    <ul id="myUL">
-      <li class="checked">Go through DataFlair's JavaScript tutorials</li>
-      <li>Practise the codes</li>
-      <li>Read a book on JavaScript</li>
-      <li class="checked">Organise my notes</li>
-      <li>Create JavaScript projects</li>
-      <li>Take quiz</li>
-      <li>Comprehend interview questions</li>
-    </ul>
-    <button type="button" id="clear-list" onclick="removeAll()">Clear Items</button>
-
-    <script type="text/javascript" src="js\to do list.js"></script>
-
-  </body>
+    <ul id="task-list"></ul>
+  </div>
+  <script src="script.js"></script>
+</body>
 </html>
