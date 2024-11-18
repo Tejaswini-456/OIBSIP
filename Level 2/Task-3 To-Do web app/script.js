@@ -1,61 +1,40 @@
-// Create a "close" button and append it to each list item
-var myNodelist = document.getElementsByTagName("LI");
-var i;
-for (i = 0; i < myNodelist.length; i++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  myNodelist[i].appendChild(span);
-}
+// Select DOM elements
+const taskInput = document.getElementById('task-input');
+const addTaskBtn = document.getElementById('add-task-btn');
+const taskList = document.getElementById('task-list');
 
-// Click on a close button to hide the current list item
-var close = document.getElementsByClassName("close");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-  var div = this.parentElement;
-  div.style.display = "none";
+// Function to add a new task
+const addTask = () => {
+  const taskText = taskInput.value.trim();
+  if (taskText === "") {
+    alert("Please enter a task!");
+    return;
   }
-}
 
-// Add a "checked" symbol when clicking on a list item
-var list = document.querySelector('ul');
-list.addEventListener('click', function(ev) {
-  if (ev.target.tagName === 'LI') {
-  ev.target.classList.toggle('checked');
-  }
-}, false);
+  const li = document.createElement('li');
 
-// Create a new list item when clicking on the "Add" button
-function newElement() {
-  var li = document.createElement("li");
-  var inputValue = document.getElementById("myInput").value;
-  var t = document.createTextNode(inputValue);
-  li.appendChild(t);
-  if (inputValue === '') {
-  alert("You must write something!");
-  } else {
-    document.getElementById("myUL").appendChild(li);
-  }
-  document.getElementById("myInput").value = "";
+  // Task text
+  const taskSpan = document.createElement('span');
+  taskSpan.textContent = taskText;
 
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  li.appendChild(span);
+  // Delete button
+  const deleteBtn = document.createElement('button');
+  deleteBtn.textContent = 'Delete';
+  deleteBtn.onclick = () => taskList.removeChild(li);
 
-  for (i = 0; i < close.length; i++) {
-    close[i].onclick = function() {
-        var div = this.parentElement;
-        div.style.display = "none";
-    }
-  }
-}
+  li.appendChild(taskSpan);
+  li.appendChild(deleteBtn);
 
-//Clearing the list
-function removeAll(){
-  var lst = document.getElementsByTagName("ul");
-    lst[0].innerHTML = "";
-}
+  taskList.appendChild(li);
+
+  // Clear input field
+  taskInput.value = '';
+};
+
+// Add task on button click
+addTaskBtn.addEventListener('click', addTask);
+
+// Add task on pressing "Enter"
+taskInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') addTask();
+});
