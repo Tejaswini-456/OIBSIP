@@ -1,61 +1,76 @@
-// Create a "close" button and append it to each list item
-var myNodelist = document.getElementsByTagName("LI");
-var i;
-for (i = 0; i < myNodelist.length; i++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  myNodelist[i].appendChild(span);
-}
+const authForm = document.getElementById("auth-form");
+const authTitle = document.getElementById("auth-title");
+const toggleLink = document.getElementById("toggle-link");
+const usernameInput = document.getElementById("username");
+const passwordInput = document.getElementById("password");
+const errorMessage = document.getElementById("error-message");
 
-// Click on a close button to hide the current list item
-var close = document.getElementsByClassName("close");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-  var div = this.parentElement;
-  div.style.display = "none";
+let isLoginMode = true; // Toggle between login and register
+
+// Event listener for form submission
+authForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const username = usernameInput.value.trim();
+  const password = passwordInput.value.trim();
+
+  if (!username || !password) {
+    errorMessage.textContent = "Please fill in all fields.";
+    return;
   }
-}
 
-// Add a "checked" symbol when clicking on a list item
-var list = document.querySelector('ul');
-list.addEventListener('click', function(ev) {
-  if (ev.target.tagName === 'LI') {
-  ev.target.classList.toggle('checked');
-  }
-}, false);
-
-// Create a new list item when clicking on the "Add" button
-function newElement() {
-  var li = document.createElement("li");
-  var inputValue = document.getElementById("myInput").value;
-  var t = document.createTextNode(inputValue);
-  li.appendChild(t);
-  if (inputValue === '') {
-  alert("You must write something!");
+  if (isLoginMode) {
+    loginUser(username, password);
   } else {
-    document.getElementById("myUL").appendChild(li);
+    registerUser(username, password);
   }
-  document.getElementById("myInput").value = "";
+});
 
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  li.appendChild(span);
+// Toggle between login and registration
+toggleLink.addEventListener("click", () => {
+  isLoginMode = !isLoginMode;
+  authTitle.textContent = isLoginMode ? "Login" : "Register";
+  toggleLink.textContent = isLoginMode
+    ? "Don't have an account? Register here."
+    : "Already have an account? Login here.";
+  errorMessage.textContent = "";
+  usernameInput.value = "";
+  passwordInput.value = "";
+});
 
-  for (i = 0; i < close.length; i++) {
-    close[i].onclick = function() {
-        var div = this.parentElement;
-        div.style.display = "none";
-    }
+// Register a new user
+function registerUser(username, password) {
+  const users = JSON.parse(localStorage.getItem("users")) || {};
+
+  if (users[username]) {
+    errorMessage.textContent = "Username is already taken.";
+    return;
   }
+
+  users[username] = password;
+  localStorage.setItem("users", JSON.stringify(users));
+  alert("Registration successful! Please log in.");
+  isLoginMode = true;
+  toggleLink.click(); // Switch to login mode
 }
 
-//Clearing the list
-function removeAll(){
-  var lst = document.getElementsByTagName("ul");
-    lst[0].innerHTML = "";
+// Login a user
+function loginUser(username, password) {
+  const users = JSON.parse(localStorage.getItem("users")) || {};
+
+  if (users[username] && users[username] === password) {
+    localStorage.setItem("currentUser", username);
+
+    // Display login success message
+    errorMessage.style.color = "green";
+    errorMessage.textContent = "Logged in successfully!";
+    
+    // Redirect to secured page after a short delay
+    setTimeout(() => {
+      window.location.href = "secured.html";
+    }, 2000);
+  } else {
+    errorMessage.style.color = "red";
+    errorMessage.textContent = "Invalid username or password.";
+  }
 }
